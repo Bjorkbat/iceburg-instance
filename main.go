@@ -12,9 +12,10 @@ import (
   "net/http"
   "os"
 
-  // Custom imports
+  // Local imports
   "github.com/iceburg-instance/home"
   "github.com/iceburg-instance/public"
+  "github.com/iceburg-instance/accounts"
 )
 
 func main() {
@@ -52,4 +53,7 @@ func defineRoutes() {
   // Dashboard
   // TODO: Add functions for working the dashboard, starting with login and
   // signup
+  accounts.InitTemplates()
+  http.HandleFunc("/login/", accounts.LoginHandler)
+  http.HandleFunc("/signup/", accounts.SignUpHandler)
 }
