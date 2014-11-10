@@ -1,0 +1,61 @@
+/* css used for when the game is running.  Basically, clear the screen and add
+ * some basic styling */
+
+body {
+  background-color: #ffffff;
+  margin: 0px;
+  overflow: hidden;
+  font-family: 'Open Sans', sans-serif;
+}
+
+p {
+  text-align: center;
+}
+
+.buttons a {
+  display: block;
+  width: 100px;
+  margin: 0px auto;
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.content, .about {
+  position: absolute;
+  width: 100%;
+}
+
+.about {
+  top: 15%;
+}
+
+.about p {
+  margin-left: 20%;
+  margin-right: 20%;
+  color: white;
+  text-align: center;
+}
+
+#title {
+  display: block;
+  margin: 0px auto;
+}
+
+#subtitle {
+  color: white;
+  text-align: center;
+  font-size: 16pt;
+  margin-top: -50px;
+}
+
+#hideUI {
+  text-decoration: none;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: white;
+}
