@@ -14,6 +14,7 @@ import (
 
   // Local imports
   "github.com/iceburg-instance/database"
+  "github.com/iceburg-instance/database/db_init"
   "github.com/iceburg-instance/home"
   "github.com/iceburg-instance/public"
   "github.com/iceburg-instance/accounts"
@@ -29,16 +30,25 @@ func main() {
     return
   } else {
     switch args[1] {
-      case "runserver":
-      // Prep the server and run it
-      defineRoutes()
-      err := database.Open()
-      if err != nil {
-        fmt.Println(err)
+      case "initdb":
+        // Initialize the database with the necessary models
+        err := db_init.Init()
+        if err != nil {
+          fmt.Println(err)
+        } else {
+          fmt.Println("Database Initialized")
+        }
         return
-      }
-      fmt.Println("Server is Running on Port :8080")
-      http.ListenAndServe(":8080", nil)
+      case "runserver":
+        // Prep the server and run it
+        defineRoutes()
+        err := database.Open()
+        if err != nil {
+          fmt.Println(err)
+          return
+        }
+        fmt.Println("Server is Running on Port :8080")
+        http.ListenAndServe(":8080", nil)
     }
   }
 }
