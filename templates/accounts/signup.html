@@ -1,0 +1,43 @@
+{{ template "header.html" }}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-4 col-md-4" style="padding-top: 50px;">
+      <h1 class="text-center">Create An Account</h1>
+
+      {{ if .ErrorDesc }}
+        <p class="text-danger">{{ .ErrorDesc }}</p>
+      {{ end}}
+
+      <form method="post">
+
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username"
+            name="username">
+        </div>
+
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email"
+            name="email">
+        </div>
+
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password"
+            name="password">
+        </div>
+
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Enter Password Again"
+            name="password_again">
+        </div>
+
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-default">Create Account</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{{ template "footer.html" }}
