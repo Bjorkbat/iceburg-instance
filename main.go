@@ -14,6 +14,7 @@ import (
 
   // Custom imports
   "github.com/iceburg-instance/home"
+  "github.com/iceburg-instance/public"
 )
 
 func main() {
@@ -42,6 +43,7 @@ func defineRoutes() {
 
   // Static handler
   // TODO: Add function to handle static files
+  http.HandleFunc("/public/", public.PublicHandler)
 
   // Homepage
   home.InitTemplates()
