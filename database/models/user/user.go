@@ -14,3 +14,14 @@ func GetInit() string {
 
   return qString
 }
+
+// Generates an insert string for a new user
+func GenInsert(username string, email string, saltedpass string, salt string) string {
+  insertString := "INSERT INTO user (username, email, password, salt) VALUES ( " +
+    "'" + username + "', " +
+    "'" + email + "', " +
+    "'" + saltedpass + "', " +
+    "'" + salt + "' )"
+
+  return insertString
+}
