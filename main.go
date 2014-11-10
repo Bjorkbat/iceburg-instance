@@ -13,6 +13,7 @@ import (
   "os"
 
   // Local imports
+  "github.com/iceburg-instance/database"
   "github.com/iceburg-instance/home"
   "github.com/iceburg-instance/public"
   "github.com/iceburg-instance/accounts"
@@ -31,6 +32,11 @@ func main() {
       case "runserver":
       // Prep the server and run it
       defineRoutes()
+      err := database.Open()
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
       fmt.Println("Server is Running on Port :8080")
       http.ListenAndServe(":8080", nil)
     }
