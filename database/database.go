@@ -41,3 +41,9 @@ func Close() {
   db.Close()
   return
 }
+
+// Wrapper for exec, which executes a string without returning any rows.
+// Good for basically any sql query besides SELECT
+func Execute(query string) (sql.Result, error) {
+  return db.Exec(query)
+}
