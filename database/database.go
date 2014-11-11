@@ -47,3 +47,8 @@ func Close() {
 func Execute(query string) (sql.Result, error) {
   return db.Exec(query)
 }
+
+// Wrapper for QueryRow
+func QueryRow(query string, args ...interface{}) *sql.Row {
+  return db.QueryRow(query, args)
+}
