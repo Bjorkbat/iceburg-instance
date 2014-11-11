@@ -77,10 +77,11 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
   hashedPass := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 
   if hashedPass == u.Password {
-    // Success
+    // Success.  Redirect to admin
     fmt.Println("Success!")
+    http.Redirect(w, r, "/admin", 301)
   } else {
-    // Fail
+    // Fail.  Give form error
     fmt.Println("fail")
   }
 
