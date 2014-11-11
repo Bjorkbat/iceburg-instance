@@ -1,0 +1,41 @@
+{{ template "header.html" }}
+
+{{ template "navbar.html" }}
+
+<div class="container">
+
+  <div class="page-header">
+    <h1>Terra</h1>
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <h2>Initialize Terrain</h2>
+      <p>If no terrain data exists, this will create new terrain data for you
+        (read: generates new height data for vertices).  If there's already
+        data present, then nothing will happen.</p>
+
+      <form method="POST" action="/admin/terra/">
+        <button type="submit" class = "btn btn-default" name="init" value="true">Go</button>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <h2>Reset Terrain</h2>
+      <p>This creates entirely new terrain data, regardless of whether or not
+        terrain data actually exists.  A nice clean slate</p>
+
+      <p class="text-danger">Warning: You'll lose all saved data for the
+        terrain you already have.  There's no going back.</p>
+
+      <form method="POST" action="/admin/terra/">
+        <button type="submit" class = "btn btn-danger" name="reset">Go</button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+{{ template "footer.html" }}
