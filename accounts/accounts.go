@@ -7,7 +7,9 @@ package accounts
 import (
   "crypto/rand"
   "crypto/sha256"
+  "database/sql"
   "encoding/base64"
+  "fmt"
   "html/template"
   "net/http"
 
@@ -34,7 +36,49 @@ func InitTemplates() {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-  templates.ExecuteTemplate(w, "login.html", nil)
+
+  if r.Method == "GET" {
+    templates.ExecuteTemplate(w, "login.html", nil)
+    return
+  } else if r.Method != "POST" {
+    // Todo, raise some sort of permissions error
+  }
+
+  // So, it's a post request.  Extract the user model with their username
+  username := r.FormValue("username")
+  qString := user.GetGet("username")
+  u := user.UserModel{}
+  err := database.QueryRow(qString, username).Scan(&u)
+  if err == sql.ErrNoRows {
+    // The username didn't get anything from the users, meaning they entered
+    // the wrong username.  Return form error
+    fmt.Println(err)
+    return
+  } else if err != nil {
+    // Something more interesting happened.  Raise a 500 error instead
+    fmt.Println(err)
+    return
+  }
+
+  // So, we got the user data back.  Take the password passed in through the
+  // form, hash it with the salt in the model, and compare.  If the two are
+  // the same then the user is authenticated
+  formPass := r.FormValue("password")
+  hasher := sha256.New()
+  // Note, this might fail, as the salt might need to be decoded out of base64
+  // I doubt that though.  Bytes are bytes
+  hasher.Write(append( []byte(formPass), []byte(u.Salt)... ))
+  hashedPass := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+
+  if hashedPass == u.Password {
+    // Success
+  } else {
+    // Fail
+  }
+
+  // TODO: Generate a session key for the user.  For now though, I'm satisfied
+  // with just seeing if my system works
+
 }
 
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
