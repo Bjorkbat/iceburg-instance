@@ -48,7 +48,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
   username := r.FormValue("username")
   qString := user.GetGet("username")
   u := user.UserModel{}
-  err := database.QueryRow(qString, username).Scan(&u)
+  err := database.QueryRow(qString, username).Scan(&u.Username, &u.Email, &u.Password, &u.Salt)
   if err == sql.ErrNoRows {
     // The username didn't get anything from the users, meaning they entered
     // the wrong username.  Return form error
@@ -67,13 +67,21 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
   hasher := sha256.New()
   // Note, this might fail, as the salt might need to be decoded out of base64
   // I doubt that though.  Bytes are bytes
-  hasher.Write(append( []byte(formPass), []byte(u.Salt)... ))
+  decodedSalt, err := base64.URLEncoding.DecodeString(u.Salt)
+  if err != nil {
+    // Decoder error.  Return 500
+    fmt.Println(err)
+    return
+  }
+  hasher.Write(append( []byte(formPass), decodedSalt... ))
   hashedPass := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 
   if hashedPass == u.Password {
     // Success
+    fmt.Println("Success!")
   } else {
     // Fail
+    fmt.Println("fail")
   }
 
   // TODO: Generate a session key for the user.  For now though, I'm satisfied
