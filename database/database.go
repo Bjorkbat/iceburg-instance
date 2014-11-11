@@ -50,5 +50,5 @@ func Execute(query string) (sql.Result, error) {
 
 // Wrapper for QueryRow
 func QueryRow(query string, args ...interface{}) *sql.Row {
-  return db.QueryRow(query, args)
+  return db.QueryRow(query, args...)
 }
