@@ -74,4 +74,5 @@ func defineRoutes() {
 
   admin.InitTemplates()
   http.HandleFunc("/admin/", admin.DashboardHandler)
+  http.HandleFunc("/admin/terra/", admin.TerraHandler)
 }
