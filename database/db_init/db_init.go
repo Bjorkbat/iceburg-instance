@@ -12,6 +12,7 @@ import (
 
   "github.com/iceburg-instance/database/db_settings"
   "github.com/iceburg-instance/database/models/user"
+  "github.com/iceburg-instance/database/models/session"
 )
 
 // Initializes a fresh database.  Also used to reset the database if necessary
@@ -41,6 +42,13 @@ func Init() error {
     return err
   }
   fmt.Println("Added user table")
+
+  qString = session.GetInit()
+  _, err = db.Exec(qString)
+  if err != nil {
+    return err
+  }
+  fmt.Println("Added session table")
 
   return nil
 }
