@@ -9,6 +9,11 @@ import (
   "strings"
 )
 
+type HeightTuple struct {
+  Id int
+  Height float32
+}
+
 func GetInit() string {
   var qString string = "CREATE TABLE IF NOT EXISTS terrain ( " +
   "id INTEGER PRIMARY KEY, " +
@@ -39,6 +44,11 @@ func GenInsertBulk(heights []float32) string {
   }
 
   return insertString
+}
+
+// Returns a string that gets everything from the table
+func GetAllString() string {
+  return "SELECT * FROM terrain"
 }
 
 // Special function to convert float32 height values into string
