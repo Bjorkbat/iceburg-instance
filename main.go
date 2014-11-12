@@ -43,10 +43,14 @@ func main() {
       case "runserver":
         // Prep the server and run it
         defineRoutes()
-        err := database.Open()
-        if err != nil {
-          fmt.Println(err)
-          return
+        // Add a flag argument where you can ignore the database.  Basically
+        // used just to fuck around with the demo
+        if args[2] != "--ignoredb" {
+          err := database.Open()
+          if err != nil {
+            fmt.Println(err)
+            return
+          }
         }
         fmt.Println("Server is Running on Port :8080")
         http.ListenAndServe(":8080", nil)
