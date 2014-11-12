@@ -14,6 +14,7 @@ import (
 
   // Local imports
   "github.com/iceburg-instance/admin"
+  "github.com/iceburg-instance/assets"
   "github.com/iceburg-instance/database"
   "github.com/iceburg-instance/database/db_init"
   "github.com/iceburg-instance/home"
@@ -79,4 +80,7 @@ func defineRoutes() {
   admin.InitTemplates()
   http.HandleFunc("/admin/", admin.DashboardHandler)
   http.HandleFunc("/admin/terra/", admin.TerraHandler)
+
+  // Asset Retreival
+  http.HandleFunc("/assets/terrain/", assets.TerrainHandler)
 }
