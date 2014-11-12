@@ -52,3 +52,8 @@ func Execute(query string) (sql.Result, error) {
 func QueryRow(query string, args ...interface{}) *sql.Row {
   return db.QueryRow(query, args...)
 }
+
+// Wrapper for Query
+func Query(query string, args ...interface{}) (*sql.Rows, error) {
+  return db.Query(query, args...)
+}
