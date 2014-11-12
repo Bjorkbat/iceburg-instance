@@ -50,9 +50,9 @@ func PublicHandler(w http.ResponseWriter, r *http.Request) {
       contentType = "application/javascript"
     case "img":
       switch suffix {
-        case "jpg":
+        case ".jpg":
           contentType = "image/jpeg"
-        case "png":
+        case ".png":
           contentType = "image/png"
         default:
           http.Error(w, "Image neither png or jpeg", http.StatusInternalServerError)
