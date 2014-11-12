@@ -9,6 +9,9 @@ import (
   "fmt"
   "html/template"
   "net/http"
+
+  "github.com/iceburg-instance/database"
+  "github.com/iceburg-instance/database/models/terrain"
 )
 
 // TODO: Add regex url parsing
@@ -52,10 +55,16 @@ func TerraHandler(w http.ResponseWriter, r *http.Request) {
     terraHeights := make([]float32, TERRAIN_VERTICE_COUNT)
     genHeight(75, 75, HEIGHT_RANGE, terraHeights)
 
-    fmt.Println(terraHeights[1])
-
     // Store this array of height values into the database, under the
     // terrain_height model
+    execString := terrain.GenInsertBulk(terraHeights)
+    result, err := database.Execute(execString)
+    if err != nil {
+      fmt.Println("fuck!")
+    } else {
+      rows, _:= result.RowsAffected()
+      fmt.Println(rows)
+    }
 
     // Operation was a success, template execution below will handle the rest
   }
