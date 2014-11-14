@@ -80,6 +80,7 @@ func defineRoutes() {
   admin.InitTemplates()
   http.HandleFunc("/admin/", admin.DashboardHandler)
   http.HandleFunc("/admin/terra/", admin.TerraHandler)
+  http.HandleFunc("/admin/fauna/", admin.FaunaHandler)
 
   // Asset Retreival
   http.HandleFunc("/assets/terrain/", assets.TerrainHandler)
