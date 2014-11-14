@@ -46,6 +46,11 @@ func GenInsertBulk(heights []float32) string {
   return insertString
 }
 
+// Generates a string which deletes all the entries from the table
+func GenReset() string {
+  return "DELETE FROM terrain;"
+}
+
 // Returns a string that gets everything from the table
 func GetAllString() string {
   return "SELECT * FROM terrain;"
