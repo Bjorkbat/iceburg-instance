@@ -8,6 +8,7 @@ package admin
 import (
   "fmt"
   "html/template"
+  "math/rand"
   "net/http"
 
   "github.com/iceburg-instance/database"
@@ -53,7 +54,7 @@ func TerraHandler(w http.ResponseWriter, r *http.Request) {
 
     // Generate vertice height values, store in array
     terraHeights := make([]float32, TERRAIN_VERTICE_COUNT)
-    genHeight(75, 75, HEIGHT_RANGE, terraHeights)
+    genHeight(76, 76, HEIGHT_RANGE, terraHeights)
 
     // Store this array of height values into the database, under the
     // terrain_height model
@@ -74,12 +75,53 @@ func TerraHandler(w http.ResponseWriter, r *http.Request) {
 
 // Generates height data for the terrain
 func genHeight(widthVerts int, lengthVerts int, heightRange int, verts []float32) {
+
+  // Stands for Random Within Range.  A random value that falls within the
+  // defined height range
+  var rwr float32
+  lowerOffset := float32(heightRange) / 2
+
   for i := 0; i < len(verts); i ++ {
-    // For now, for the sake of testing, alternate between 0 and 5
-    if i % 2 == 0 {
-      verts[i] = 0
+
+    rwr = (rand.Float32() * float32(heightRange)) - lowerOffset
+
+    if i == 0 {
+      // If it's the first vertice, set to purely rand val
+      verts[i] = rwr
+    } else if i < widthVerts {
+      // We're still on the beginning row, in which case we only have to
+      // worry about one point of data, the vertice prior
+      verts[i] = verts[i-1] + rwr
+    } else if i % widthVerts == 0 {
+      // Basically, is this vertice a starting vertice?  If so, use the two
+      // adjacent calculated points to calc height
+      verts[i] = pointAverage(
+        verts[i - widthVerts],
+        verts[i - widthVerts + 1]) + rwr
+    } else if i % widthVerts == widthVerts - 1 {
+      // These vertices are located at the end of a row, hence the modulo
+      // condition.  Vertices like these will have three adjacent vertices
+      // to factor in
+      verts[i] = pointAverage(
+        verts[i - widthVerts],
+        verts[i - widthVerts - 1],
+        verts[i -1] ) + rwr
     } else {
-      verts[i] = 5
+      // Most vertices will have 4 adjacent calculated vertices
+      verts[i] = pointAverage(
+        verts[i - widthVerts],
+        verts[i - widthVerts - 1],
+        verts[i - widthVerts + 1],
+        verts[i - 1]) + rwr
     }
+  } // endfor
+}
+
+// Calculates the average height given a number of points as input
+func pointAverage(points ...float32) float32 {
+  var sum float32 = 0.0
+  for i := 0; i < len(points); i ++ {
+    sum = sum + points[i]
   }
+  return sum / float32(len(points))
 }
