@@ -66,11 +66,36 @@ func TerraHandler(w http.ResponseWriter, r *http.Request) {
       rows, _:= result.RowsAffected()
       fmt.Println(rows)
     }
+    // Render the success template below
+  } else if r.FormValue("reset") == "true" {
+    // In the event of a reset, delete all entries from terrain table and
+    // gen new entries.
+    // This is important as opposed to just doing an update, as it's possible
+    // that use might want to change the number of terrain vertices
+    terraHeights := make([]float32, TERRAIN_VERTICE_COUNT)
+    genHeight(76, 76, HEIGHT_RANGE, terraHeights)
 
-    // Operation was a success, template execution below will handle the rest
+    // Remove all the entries
+    qString := terrain.GenReset()
+    _, err := database.Execute(qString)
+    if err != nil {
+      fmt.Println(err)
+      return
+    }
+
+    // And insert the new ones
+    qString = terrain.GenInsertBulk(terraHeights)
+    result, err := database.Execute(qString)
+    if err != nil {
+      fmt.Println(err)
+    } else {
+      rows, _ := result.RowsAffected()
+      fmt.Println(rows)
+    }
   }
 
   templates.ExecuteTemplate(w, "terra_success.html", nil)
+  return
 }
 
 // Generates height data for the terrain
