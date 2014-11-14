@@ -48,7 +48,7 @@ func GenInsertBulk(heights []float32) string {
 
 // Returns a string that gets everything from the table
 func GetAllString() string {
-  return "SELECT * FROM terrain"
+  return "SELECT * FROM terrain;"
 }
 
 // Special function to convert float32 height values into string

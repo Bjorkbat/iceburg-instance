@@ -15,7 +15,8 @@ type HeightData struct {
   HeightVals []terrain.HeightTuple
 }
 
-// Extract the terrain height data, return it as a JSON object
+// Extract the terrain height data as a struct, let assets handle the
+// marshalling part
 func GetHeight() (*HeightData, error) {
 
   // Get all 5000 something rows of vertice height vals and shove them into
