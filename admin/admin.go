@@ -13,6 +13,7 @@ import (
 
   "github.com/iceburg-instance/database"
   "github.com/iceburg-instance/database/models/terrain"
+  "github.com/iceburg-instance/database/models/creature"
 )
 
 // TODO: Add regex url parsing
@@ -25,7 +26,9 @@ func InitTemplates() {
   templates = template.Must(template.ParseFiles(
     "templates/admin/admin.html",
     "templates/admin/terra.html",
+    "templates/admin/fauna.html",
     "templates/admin/terra_success.html",
+    "templates/admin/fauna_success.html",
     "templates/partials/header.html",
     "templates/partials/navbar.html",
     "templates/partials/footer.html" ))
@@ -35,6 +38,35 @@ func InitTemplates() {
 // TODO: Check to see that user is actually authenticated first
 func DashboardHandler(w http.ResponseWriter, r *http.Request) {
   templates.ExecuteTemplate(w, "admin.html", nil)
+}
+
+// Renders the fauna template, and handles requests to change the
+// fauna count
+func FaunaHandler(w http.ResponseWriter, r *http.Request) {
+
+  if r.Method == "GET" {
+    templates.ExecuteTemplate(w, "fauna.html", nil)
+    return
+  } else if r.Method != "POST" {
+    // Permission error
+    return
+  }
+
+  // In event of POST request, run a switch against the form value indicating
+  // the type.  For each type, extract another FormValue, called delta, then
+  // update the database in accordance
+  creatureType := r.FormValue("creature")
+  // TODO: Run a regex checker on creature type
+  count := r.FormValue("count")
+  qString := creature.GenInsert(creatureType, count)
+  _, err := database.Execute(qString)
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  // So, the update was a success.  Send out a success message
+  templates.ExecuteTemplate(w, "fauna_success.html", nil)
 }
 
 // Renders the terrain template, and creates new terrain on certain params
