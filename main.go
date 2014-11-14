@@ -46,7 +46,7 @@ func main() {
         defineRoutes()
         // Add a flag argument where you can ignore the database.  Basically
         // used just to fuck around with the demo
-        if args[2] != "--ignoredb" {
+        if len(args) < 3 || args[2] != "--ignoredb" {
           err := database.Open()
           if err != nil {
             fmt.Println(err)
