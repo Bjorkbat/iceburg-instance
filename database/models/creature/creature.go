@@ -13,7 +13,7 @@ func GetInit() string {
   // isn't necessary.
   var qString string = "CREATE TABLE IF NOT EXISTS creature ( " +
   "type VARCHAR(255) PRIMARY KEY, " +
-  "count INTEGER );"
+  "count INTEGER NOT NULL);"
 
   return qString
 }
@@ -22,7 +22,8 @@ func GetInit() string {
 // Then a simple insert is performed.  Else, peform an update
 func GenInsert(creature string, count string) string{
   var qString string = "INSERT INTO creature (type, count) VALUES ( " +
-  creature + ", " + count + " ) " +
+  "'" + creature + "' , " +
+  count + " ) " +
   "ON DUPLICATE KEY UPDATE count=" + count + ";"
 
   return qString
