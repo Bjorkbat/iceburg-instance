@@ -14,6 +14,7 @@ import (
   "github.com/iceburg-instance/database/models/user"
   "github.com/iceburg-instance/database/models/session"
   "github.com/iceburg-instance/database/models/terrain"
+  "github.com/iceburg-instance/database/models/creature"
 )
 
 // Initializes a fresh database.  Also used to reset the database if necessary
@@ -57,6 +58,13 @@ func Init() error {
     return err
   }
   fmt.Println("Added terrain table")
+
+  qString = creature.GetInit()
+  _, err = db.Exec(qString)
+  if err != nil {
+    return err
+  }
+  fmt.Println("Added creature table")
 
   return nil
 }
