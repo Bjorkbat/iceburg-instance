@@ -23,18 +23,29 @@
 
       <hr>
 
-      <h3>Current Count: 0</h3>
-      <h4>New Count: <span id="newCount">0</span></h4>
+      <form method="POST" action="/admin/fauna/">
 
-      <i id="tetraUp" class="fa fa-2x fa-chevron-up"></i>
-      <i id="tetraDown" class="fa fa-2x fa-chevron-down"></i>
+        <h3>Current Count: 0</h3>
+        <h4>New Count: <span id="newCount">0</span></h4>
 
-      <form method="POST" action="/admin/fauna">
-        <button id="addTetra" class="btn btn-default" name="add_tetra"
-          value="0">
+        <a href="#" onclick="incCount(this)">
+          <i class="fa fa-2x fa-chevron-up"></i>
+        </a>
+
+        <a href="#" onclick="decCount(this)">
+          <i class="fa fa-2x fa-chevron-down"></i>
+        </a>
+
+        <input type="hidden" name="count" value="0">
+
+        <button type="submit" id="addTetra" class="btn btn-default" name="creature"
+          value="tetrademon">
           Update
         </button>
+
       </form>
+
+    </div>
 
   </div>
 
