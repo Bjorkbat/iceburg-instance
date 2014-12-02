@@ -6,6 +6,8 @@
 package assets
 
 import (
+  "fmt"
+  "github.com/iceburg-instance/database"
   "github.com/iceburg-instance/database/models/creature"
 )
 
@@ -13,7 +15,7 @@ type CreatureList struct {
   Creatures []creature.CreatureTuple
 }
 
-func GetCreatures() ( *CreatureList, err ) {
+func GetCreatures() ( *CreatureList, error ) {
 
   // Generate string to extract all the creatures
   qString := creature.GenAll()
@@ -29,7 +31,7 @@ func GetCreatures() ( *CreatureList, err ) {
 
   for rows.Next() {
     creatureTuple = creature.CreatureTuple{}
-    if err := rows.Scan(&creatureTuple.Type, &creatureTuple.Count); err != nil {
+    if err := rows.Scan(&creatureTuple.CreatureType, &creatureTuple.Count); err != nil {
       fmt.Println(err)
       return nil, err
     }
