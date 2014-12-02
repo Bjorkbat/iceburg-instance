@@ -169,10 +169,42 @@ function startGame() {
 		}
 	}
 
-	// add enemies
+	// Add enemies.  Start by retrieving enemy data from server
+	$.ajax({
+		url: '/assets/creatures',
+		async: false,
+		success: function(data) {
+			data = JSON.parse(data);
+			var x;
+			var z;
+			var creature;
+			for(var i = 0; i < data.Creatures.length; i ++) {
+				// In the future I'll create a dict to handle this.  For now there's
+				// only one creature, so it's pretty simple
+				for(var j = 0; j < data.Creatures[i].Count; j ++) {
+					// Let's make this fun.  Make the tetrademon show up randomly near
+					// the edges
+					// In each case either the x or the z is at a min or max.  Use a
+					// 50 / 50 random var to determine which is the extreme
+					if(Math.random() <= 0.5) {
+						x = Math.round(Math.random()) * 750 - 375;
+						z = Math.random() * 750 - 375;
+					} else {
+						x = Math.random() * 750 - 375;
+						z = Math.round(Math.random()) * 750 - 735;
+					}
+					creature = new tetrademon(new THREE.Vector3(x, 20, z))
+					creatures.push(creature);
+					scene.add(creature.model);
+				} // endfor
+			} // endfor
+		} // end success
+	});
+
+	/*
 	creatures.push(new tetrademon(new THREE.Vector3(100, 20, 100)));
-	console.log(creatures[0].model);
 	scene.add(creatures[0].model);
+	*/
 
   window.addEventListener('resize', onWindowResize, false);
 
