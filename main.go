@@ -84,4 +84,5 @@ func defineRoutes() {
 
   // Asset Retreival
   http.HandleFunc("/assets/terrain/", assets.TerrainHandler)
+  http.HandleFunc("/assets/creatures/", assets.CreatureHandler)
 }
