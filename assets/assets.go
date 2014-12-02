@@ -37,3 +37,30 @@ func TerrainHandler(w http.ResponseWriter, r *http.Request) {
   w.Write(obj)
   return
 }
+
+// Handler for getting creature data.  Returns a JSON object consisting of
+// the monster type and the count
+func CreatureHandler(w http.ResponseWriter, r *http.Request) {
+  if r.Method != "GET" {
+    // Permission error
+    return
+  }
+
+  // Grab the data
+  creatureList, err := GetCreatures()
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  // Marshal this to a JSON object
+  obj, err := json.Marshal(creatureList)
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  // Write back to client
+  w.Write(obj)
+  return
+}
