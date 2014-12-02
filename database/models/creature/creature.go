@@ -5,6 +5,11 @@
 
 package creature
 
+type CreatureTuple struct {
+  CreatureType string
+  Count int
+}
+
 // Initialization string function
 func GetInit() string {
 
@@ -20,7 +25,7 @@ func GetInit() string {
 
 // Special insert function.  If the creature type can't be found in the table,
 // Then a simple insert is performed.  Else, peform an update
-func GenInsert(creature string, count string) string{
+func GenInsert(creature string, count string) string {
   var qString string = "INSERT INTO creature (type, count) VALUES ( " +
   "'" + creature + "' , " +
   count + " ) " +
@@ -29,4 +34,7 @@ func GenInsert(creature string, count string) string{
   return qString
 }
 
-// TODO: Function to remove all types of a monster
+func GenAll() string {
+  var qString string = "SELECT * FROM creature;"
+  return qString
+}
